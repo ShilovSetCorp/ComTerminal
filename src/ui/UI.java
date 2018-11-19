@@ -1,7 +1,7 @@
-/**
+package ui; /**
  *
  * @file
- * @brief Here is wrapper class for UI to work with Com port
+ * @brief Here is wrapper class for ui.UI to work with Com port
  *
  *
  * @authors Vladislav Shikhanov
@@ -10,27 +10,43 @@
  *****************************************************************************/
 
 
-package ui;
+
+import comport.ComPort;
+import jssc.SerialPortException;
+import org.w3c.dom.Text;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UI extends JFrame{
 
+    private ComPort comPort;
     private JTextArea dataExchangeLog = new JTextArea(); // show text here
     private JTextArea dataReceived = new JTextArea(); // show text here
     private JTextField dataToSend = new JTextField(16); //got text from here
 
-    public UI(){
+
+    public UI(ComPort comPort){
+        this.comPort = comPort;
         initUI();
     }
 
+    public void sendData (String str) {
+        try {
+            comPort.sendToCom(str);
+        } catch (SerialPortException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private void initUI(){
-        var tabbedPane = new JTabbedPane();
+        JTabbedPane tabbedPane = new JTabbedPane();
 
 
         tabbedPane.addTab("Commands", createCommandsPanel());
@@ -47,15 +63,15 @@ public class UI extends JFrame{
 
 
     private JPanel createCommandsPanel() {
-        var panel = new JPanel();
+        JPanel panel = new JPanel();
 
-        var groupLayout = new GroupLayout(panel);
+        GroupLayout groupLayout = new GroupLayout(panel);
 
-        var sendIcon = new ImageIcon("img/send.png");
-        var receiveIcon = new ImageIcon("img/receive.png");
+        ImageIcon sendIcon = new ImageIcon("img/send.png");
+        ImageIcon receiveIcon = new ImageIcon("img/receive.png");
 
-        var sendBtn = new JButton("Send", sendIcon);
-        var receiveBtn = new JButton("Receive", receiveIcon);
+        JButton sendBtn = new JButton("Send", sendIcon);
+        JButton receiveBtn = new JButton("Receive", receiveIcon);
 
         sendBtn.addActionListener(new SendAction());
         receiveBtn.addActionListener(new ReceiveAction());
@@ -99,7 +115,7 @@ public class UI extends JFrame{
     }
 
     private JPanel createTextPanel() {
-        var panel = new JPanel();
+        JPanel panel = new JPanel();
 
         dataExchangeLog.setText("\n123456");
 
@@ -110,16 +126,17 @@ public class UI extends JFrame{
 
 
     private class SendAction extends AbstractAction {
+
         @Override
         public void actionPerformed(ActionEvent event) {
-            sendData();
+            sendDataToCom();
         }
 
-        private void sendData() {
+        private void sendDataToCom() {
             Document document = dataToSend.getDocument();
-
             try {
-               dataReceived.setText(document.getText(0, document.getLength()));
+                sendData(document.getText(0,document.getLength()));
+               //dataReceived.setText(document.getText(0, document.getLength()));
             } catch (BadLocationException exception) {
                 Logger.getLogger(Text.class.getName()).log(
                         Level.WARNING, "Bad location", exception);
@@ -146,10 +163,11 @@ public class UI extends JFrame{
     }
 
     private void createLayout(JComponent... argument) {
-        var pane = getContentPane();
-        var groupLayout = new GroupLayout(pane);
+        Container pane = getContentPane();
+        GroupLayout groupLayout = new GroupLayout(pane);
         pane.setLayout(groupLayout);
 
+        pane.setBackground(Color.MAGENTA);
         groupLayout.setAutoCreateContainerGaps(true);
 
         groupLayout.setHorizontalGroup(groupLayout.createSequentialGroup()

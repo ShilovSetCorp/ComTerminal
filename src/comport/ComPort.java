@@ -1,3 +1,5 @@
+package comport;
+
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
@@ -33,9 +35,9 @@ public class ComPort {
 
     public void sendToCom(String s) throws SerialPortException {
         //Отправляем запрос устройству
-        while (!s.equals("stop")) {
+      //  while (!s.equals("stop")) {
             serialPort.writeBytes(s.getBytes());
-        }
+        //}
     }
 
     public void closeComPort() throws SerialPortException {
