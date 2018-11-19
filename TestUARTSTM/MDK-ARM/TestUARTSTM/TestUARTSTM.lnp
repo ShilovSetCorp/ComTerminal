@@ -1,0 +1,27 @@
+--cpu Cortex-M0
+"testuartstm\stm32f0xx_hal_tim_ex.o"
+"testuartstm\stm32f0xx_hal_tim.o"
+"testuartstm\stm32f0xx_hal_dma.o"
+"testuartstm\stm32f0xx_hal_i2c.o"
+"testuartstm\stm32f0xx_hal_pwr.o"
+"testuartstm\stm32f0xx_hal_gpio.o"
+"testuartstm\stm32f0xx_hal_i2c_ex.o"
+"testuartstm\stm32f0xx_hal.o"
+"testuartstm\stm32f0xx_hal_rcc.o"
+"testuartstm\stm32f0xx_hal_uart_ex.o"
+"testuartstm\stm32f0xx_hal_flash.o"
+"testuartstm\stm32f0xx_hal_uart.o"
+"testuartstm\stm32f0xx_hal_rcc_ex.o"
+"testuartstm\stm32f0xx_hal_pwr_ex.o"
+"testuartstm\stm32f0xx_hal_flash_ex.o"
+"testuartstm\stm32f0xx_hal_cortex.o"
+"testuartstm\main.o"
+"testuartstm\stm32f0xx_it.o"
+"testuartstm\stm32f0xx_hal_msp.o"
+"testuartstm\system_stm32f0xx.o"
+"testuartstm\startup_stm32f030x8.o"
+--library_type=microlib --strict --scatter "TestUARTSTM\TestUARTSTM.sct"
+
+--diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "TestUARTSTM.map" -o TestUARTSTM\TestUARTSTM.axf
