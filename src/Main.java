@@ -1,17 +1,19 @@
-import jssc.SerialPort;
-import jssc.SerialPort;
-import jssc.SerialPortEvent;
-import jssc.SerialPortEventListener;
+
+import comport.ComPort;
+import ui.*;
 import jssc.SerialPortException;
 
-import java.util.Scanner;
+
 
 
 public class Main {
 
+    public static ComPort comPort;
+    public static UI ui;
+
     public static void main(String[] args) throws SerialPortException {
-        ComPort comPort = new ComPort("COM2");
+        comPort = new ComPort("COM14");
         comPort.initComPort();
-        comPort.sendToCom("asd");
+        ui = new UI(comPort);
     }
 }
